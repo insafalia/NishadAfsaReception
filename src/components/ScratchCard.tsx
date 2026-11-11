@@ -8,7 +8,7 @@ import { wedding as w } from "@/data/wedding";
 
 const BRUSH = 34;
 const THRESHOLD = 0.28;
-const SPARKLE_COLORS = ["#E2C98A", "#C4A35A", "#F0E0B0", "#14919B", "#8FBC8F", "#FFFBF5"];
+const SPARKLE_COLORS = ["#E2C98A", "#C4A35A", "#F0E0B0", "#1A6B55", "#8FBC8F", "#FFFBF5"];
 
 type Bit = {
   x: number;
@@ -64,10 +64,10 @@ export default function ScratchCard() {
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
 
     const g = ctx.createLinearGradient(0, 0, width, height);
-    g.addColorStop(0, "#0A3D34");
-    g.addColorStop(0.35, "#1A7A66");
+    g.addColorStop(0, "#012116");
+    g.addColorStop(0.35, "#0A4A38");
     g.addColorStop(0.65, "#C4A35A");
-    g.addColorStop(1, "#0F5C4C");
+    g.addColorStop(1, "#012F20");
     ctx.fillStyle = g;
     ctx.fillRect(0, 0, width, height);
 
@@ -328,7 +328,7 @@ export default function ScratchCard() {
                     background:
                       i % 2 === 0
                         ? "radial-gradient(circle, #E2C98A, transparent)"
-                        : "radial-gradient(circle, #14919B, transparent)",
+                        : "radial-gradient(circle, #1A6B55, transparent)",
                   }}
                   initial={{ x: 0, y: 0, scale: 0.6, opacity: 1 }}
                   animate={{

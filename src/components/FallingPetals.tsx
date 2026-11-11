@@ -14,7 +14,7 @@ type Item = {
 };
 
 /** Champagne · soft gold · emerald — matches the reception palette */
-const COLORS = ["#C4A35A", "#E2C98A", "#F0E0B0", "#1A7A66", "#14919B", "#8FBC8F"];
+const COLORS = ["#C4A35A", "#E2C98A", "#F0E0B0", "#0A4A38", "#1A6B55", "#8FBC8F"];
 
 function Petal({ color, size }: { color: string; size: number }) {
   return (

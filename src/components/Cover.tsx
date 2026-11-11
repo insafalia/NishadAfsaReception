@@ -53,17 +53,24 @@ export function Cover({ guest, onStart, onDone }: Props) {
   };
 
   return (
-    <section className="fixed inset-0 z-50 overflow-hidden bg-transparent">
-      {/* Base vignette */}
-      <motion.div
+    <section className="fixed inset-0 z-50 overflow-hidden bg-[#012116]">
+      {/* Premium smudge on gate page too */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0"
+        style={{
+          backgroundImage: 'url("/images/emerald-smudge.jpg")',
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+        }}
+      />
+      <div
         aria-hidden
         className="pointer-events-none absolute inset-0"
         style={{
           background:
-            "radial-gradient(ellipse 80% 50% at 50% 0%, rgba(6,40,32,0.55), transparent 55%), radial-gradient(ellipse 70% 40% at 50% 100%, rgba(6,40,32,0.65), transparent 50%)",
+            "radial-gradient(ellipse 70% 45% at 20% 15%, rgba(3,61,42,0.4), transparent 55%), radial-gradient(ellipse 60% 40% at 85% 70%, rgba(1,47,32,0.35), transparent 50%)",
         }}
-        animate={opening ? { opacity: 0 } : { opacity: 1 }}
-        transition={{ duration: 1.1, ease }}
       />
 
       {/* Drifting gradient light orbs */}
@@ -219,9 +226,12 @@ export function Cover({ guest, onStart, onDone }: Props) {
           <div
             className="absolute inset-0 border-r border-champagne/25"
             style={{
-              background:
-                "linear-gradient(110deg, #062820 0%, #0F5C4C 40%, #0A3D34 70%, #08352D 100%)",
-              boxShadow: "inset -18px 0 40px rgba(0,0,0,0.35)",
+              backgroundColor: "#012116",
+              backgroundImage:
+                "linear-gradient(110deg, rgba(1,33,22,0.35) 0%, rgba(10,74,56,0.25) 45%, rgba(1,26,18,0.45) 100%), url('/images/emerald-smudge.jpg')",
+              backgroundSize: "cover, cover",
+              backgroundPosition: "left center, left center",
+              boxShadow: "inset -18px 0 40px rgba(0,0,0,0.4)",
             }}
           />
           {!reduced && (
@@ -251,9 +261,12 @@ export function Cover({ guest, onStart, onDone }: Props) {
           <div
             className="absolute inset-0 border-l border-champagne/25"
             style={{
-              background:
-                "linear-gradient(250deg, #062820 0%, #0F5C4C 40%, #0A3D34 70%, #08352D 100%)",
-              boxShadow: "inset 18px 0 40px rgba(0,0,0,0.35)",
+              backgroundColor: "#012116",
+              backgroundImage:
+                "linear-gradient(250deg, rgba(1,33,22,0.35) 0%, rgba(10,74,56,0.25) 45%, rgba(1,26,18,0.45) 100%), url('/images/emerald-smudge.jpg')",
+              backgroundSize: "cover, cover",
+              backgroundPosition: "right center, right center",
+              boxShadow: "inset 18px 0 40px rgba(0,0,0,0.4)",
             }}
           />
           {!reduced && (
@@ -262,7 +275,7 @@ export function Cover({ guest, onStart, onDone }: Props) {
               className="absolute inset-0"
               style={{
                 background:
-                  "linear-gradient(240deg, transparent 30%, rgba(20,145,155,0.14) 50%, transparent 65%)",
+                  "linear-gradient(240deg, transparent 30%, rgba(26,107,85,0.14) 50%, transparent 65%)",
               }}
               animate={opening ? { opacity: 0 } : { x: ["40%", "-50%"], opacity: [0.2, 0.5, 0.2] }}
               transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 1 }}

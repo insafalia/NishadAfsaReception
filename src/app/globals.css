@@ -3,10 +3,10 @@
 @tailwind utilities;
 
 :root {
-  --forest: #0f5c4c;
-  --forest-deep: #062820;
-  --forest-mid: #0a3d34;
-  --teal: #14919b;
+  --forest: #0a4a38;
+  --forest-deep: #012116;
+  --forest-mid: #012f20;
+  --teal: #1a6b55;
   --champagne: #c4a35a;
   --soft: #e2c98a;
   --ivory: #fffbf5;
@@ -36,16 +36,27 @@ body.is-locked {
   color: #fffbf5;
 }
 
-/* Shared emerald atmosphere — same as cover, page-wide */
+/* Premium emerald smudge — sampled from reference texture */
 .emerald-scene {
   position: relative;
   isolation: isolate;
-  background:
-    radial-gradient(ellipse 90% 55% at 50% -5%, #1a7a66 0%, transparent 50%),
-    radial-gradient(ellipse 50% 40% at 100% 30%, rgba(20, 145, 155, 0.28), transparent 55%),
-    radial-gradient(ellipse 45% 35% at 0% 70%, rgba(226, 201, 138, 0.12), transparent 50%),
-    linear-gradient(165deg, #0f5c4c 0%, #0a3d34 45%, #062820 100%);
   min-height: 100dvh;
+  background-color: #012116;
+  background-image:
+    linear-gradient(180deg, rgba(1, 33, 22, 0.15) 0%, transparent 30%, rgba(1, 33, 22, 0.25) 100%),
+    url("/images/emerald-smudge.jpg");
+  background-size: cover, cover;
+  background-position: center, center;
+  background-repeat: no-repeat, no-repeat;
+  background-attachment: scroll, scroll;
+}
+
+@supports (background-attachment: fixed) {
+  @media (min-width: 768px) {
+    .emerald-scene {
+      background-attachment: scroll, fixed;
+    }
+  }
 }
 
 .emerald-scene::before {
@@ -54,18 +65,11 @@ body.is-locked {
   position: fixed;
   inset: 0;
   z-index: 0;
-  opacity: 0.45;
-  background-image:
-    radial-gradient(circle at 18% 22%, rgba(226, 201, 138, 0.14), transparent 28%),
-    radial-gradient(circle at 82% 18%, rgba(20, 145, 155, 0.22), transparent 32%),
-    radial-gradient(circle at 50% 88%, rgba(26, 122, 102, 0.35), transparent 40%),
-    radial-gradient(1.5px 1.5px at 20% 30%, rgba(226, 201, 138, 0.35), transparent),
-    radial-gradient(1.5px 1.5px at 60% 70%, rgba(226, 201, 138, 0.25), transparent),
-    radial-gradient(1px 1px at 40% 50%, rgba(255, 251, 245, 0.2), transparent),
-    radial-gradient(1px 1px at 80% 40%, rgba(226, 201, 138, 0.3), transparent),
-    radial-gradient(1.2px 1.2px at 10% 80%, rgba(255, 251, 245, 0.15), transparent),
-    radial-gradient(1px 1px at 90% 85%, rgba(20, 145, 155, 0.4), transparent);
-  background-size: 100% 100%, 100% 100%, 100% 100%, 180px 180px, 220px 220px, 160px 160px, 200px 200px, 240px 240px, 190px 190px;
+  opacity: 0.55;
+  background:
+    radial-gradient(ellipse 70% 45% at 20% 15%, rgba(3, 61, 42, 0.55), transparent 55%),
+    radial-gradient(ellipse 60% 40% at 85% 70%, rgba(1, 47, 32, 0.5), transparent 50%),
+    radial-gradient(ellipse 50% 35% at 50% 100%, rgba(0, 26, 18, 0.45), transparent 55%);
 }
 
 .emerald-scene::after {
@@ -74,8 +78,9 @@ body.is-locked {
   position: fixed;
   inset: 0;
   z-index: 0;
-  opacity: 0.07;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  opacity: 0.12;
+  mix-blend-mode: soft-light;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 
 .glass-panel {
@@ -204,6 +209,20 @@ body.is-locked {
   }
 }
 
+@keyframes sway {
+  0%,
+  100% {
+    transform: rotate(0deg);
+  }
+  50% {
+    transform: rotate(var(--deg, 1.2deg));
+  }
+}
+
+.sway {
+  animation: sway 7s ease-in-out infinite;
+}
+
 @keyframes seal-pulse {
   0%,
   100% {
@@ -224,7 +243,7 @@ body.is-locked {
   background:
     radial-gradient(ellipse 80% 60% at 50% 0%, rgba(26, 122, 102, 0.55), transparent 60%),
     radial-gradient(ellipse 70% 50% at 50% 100%, rgba(6, 40, 32, 0.9), transparent 55%),
-    linear-gradient(160deg, #0a3d34 0%, #062820 45%, #041f19 100%);
+    linear-gradient(160deg, #012f20 0%, #012116 45%, #000e0a 100%);
   border: 1px solid rgba(196, 163, 90, 0.4);
   box-shadow:
     0 28px 64px rgba(0, 0, 0, 0.45),
@@ -330,6 +349,9 @@ body.is-locked {
     color: #fffbf5;
     -webkit-text-fill-color: #fffbf5;
     filter: none;
+  }
+  .sway {
+    animation: none;
   }
   html {
     scroll-behavior: auto;

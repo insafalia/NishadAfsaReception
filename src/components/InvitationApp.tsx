@@ -16,6 +16,10 @@ import { StickyBar } from "./StickyBar";
 import MusicControl from "./MusicControl";
 import { useAutoScroll } from "@/hooks/useAutoScroll";
 
+/**
+ * Same flow as Afsa envelope:
+ * shared background always → overlay opens → content fades in as overlay exits.
+ */
 export function InvitationApp() {
   const search = useSearchParams();
   const guest =
@@ -23,23 +27,15 @@ export function InvitationApp() {
     search.get("guest")?.trim() ||
     wedding.cover.defaultGuest;
 
-  const [opened, setOpened] = useState(false);
-  const [revealing, setRevealing] = useState(false);
+  const skipCover = search.get("open") === "1";
+  const [opened, setOpened] = useState(skipCover);
   const [playing, setPlaying] = useState(false);
   const audio = useRef<HTMLAudioElement>(null);
 
   useEffect(() => {
-    if (search.get("open") === "1") setOpened(true);
-  }, [search]);
-
-  const showContent = revealing || opened;
-  const showCover = !opened;
-
-  useEffect(() => {
-    // Keep scroll locked through gate + zoom so mobile doesn't drop/jump
-    document.body.classList.toggle("is-locked", showCover || revealing);
+    document.body.classList.toggle("is-locked", !opened);
     return () => document.body.classList.remove("is-locked");
-  }, [showCover, revealing]);
+  }, [opened]);
 
   useEffect(() => {
     const a = audio.current;
@@ -70,70 +66,52 @@ export function InvitationApp() {
   }, []);
 
   const startOpen = useCallback(() => {
-    setRevealing(true);
     startMusic();
     window.scrollTo(0, 0);
   }, [startMusic]);
 
   const finishOpen = useCallback(() => {
+    window.scrollTo(0, 0);
     setOpened(true);
-    window.setTimeout(() => {
-      setRevealing(false);
-      window.scrollTo(0, 0);
-    }, 400);
   }, []);
 
-  useAutoScroll(opened, { delayMs: 1400, pxPerFrame: 0.5 });
+  useAutoScroll(opened, { delayMs: 1200, pxPerFrame: 0.5 });
 
   return (
     <div className="emerald-scene">
       <audio ref={audio} src={wedding.music.src} loop preload="auto" />
-
-      <main
-        className={
-          showContent
-            ? "relative z-10 min-h-screen"
-            : "pointer-events-none invisible absolute inset-0 min-h-screen"
-        }
-        aria-hidden={!showContent}
-      >
-        {showContent && (
-          <>
-            {/* Fixed layers stay outside scale — avoids mobile "drop" */}
-            <FallingPetals petals={14} sparkles={16} />
-
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
-            >
-              <Invite />
-              <ScratchCard />
-              <Countdown />
-              <Venue />
-              <Rsvp />
-              <Closing />
-            </motion.div>
-
-            {opened && <StickyBar />}
-          </>
-        )}
-      </main>
-
-      {opened && <MusicControl playing={playing} onToggle={toggleMusic} />}
+      <FallingPetals petals={opened ? 12 : 16} sparkles={opened ? 14 : 18} />
 
       <AnimatePresence>
-        {showCover && (
+        {!opened && (
           <motion.div
             key="cover"
             className="fixed inset-0 z-50"
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+            exit={{ opacity: 0, scale: 1.04, filter: "blur(6px)" }}
+            transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
           >
             <Cover guest={guest} onStart={startOpen} onDone={finishOpen} />
           </motion.div>
         )}
       </AnimatePresence>
+
+      {opened && (
+        <motion.div
+          className="relative z-10 min-h-screen"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+        >
+          <Invite />
+          <ScratchCard />
+          <Countdown />
+          <Venue />
+          <Rsvp />
+          <Closing />
+          <StickyBar />
+          <MusicControl playing={playing} onToggle={toggleMusic} />
+        </motion.div>
+      )}
     </div>
   );
 }

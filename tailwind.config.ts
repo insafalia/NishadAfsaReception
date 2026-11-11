@@ -6,11 +6,11 @@ const config: Config = {
     extend: {
       colors: {
         forest: {
-          DEFAULT: "#0F5C4C",
-          mid: "#0A3D34",
-          deep: "#062820",
+          DEFAULT: "#0A4A38",
+          mid: "#012F20",
+          deep: "#012116",
         },
-        teal: "#14919B",
+        teal: "#1A6B55",
         champagne: "#C4A35A",
         soft: "#E2C98A",
         ivory: "#FFFBF5",
