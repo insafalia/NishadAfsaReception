@@ -169,6 +169,35 @@ body.is-locked {
   box-shadow: 0 0 0 3px rgba(196, 163, 90, 0.15);
 }
 
+/* Gliding champagne glow on couple names */
+.name-glow {
+  background: linear-gradient(
+    110deg,
+    #fffbf5 0%,
+    #fffbf5 38%,
+    #e2c98a 48%,
+    #c4a35a 52%,
+    #fffbf5 62%,
+    #fffbf5 100%
+  );
+  background-size: 250% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  filter: drop-shadow(0 0 12px rgba(226, 201, 138, 0.28));
+  animation: name-glow 5.5s ease-in-out infinite;
+}
+
+@keyframes name-glow {
+  0% {
+    background-position: 130% 0;
+  }
+  55%,
+  100% {
+    background-position: -130% 0;
+  }
+}
+
 @keyframes seal-pulse {
   0%,
   100% {
@@ -288,6 +317,12 @@ body.is-locked {
   .petal,
   .sparkle {
     display: none;
+  }
+  .name-glow {
+    animation: none;
+    background: none;
+    color: #fffbf5;
+    filter: none;
   }
   html {
     scroll-behavior: auto;

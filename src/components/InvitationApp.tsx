@@ -36,9 +36,10 @@ export function InvitationApp() {
   const showCover = !opened;
 
   useEffect(() => {
-    document.body.classList.toggle("is-locked", showCover);
+    // Keep scroll locked through gate + zoom so mobile doesn't drop/jump
+    document.body.classList.toggle("is-locked", showCover || revealing);
     return () => document.body.classList.remove("is-locked");
-  }, [showCover]);
+  }, [showCover, revealing]);
 
   useEffect(() => {
     const a = audio.current;
@@ -75,13 +76,16 @@ export function InvitationApp() {
   }, [startMusic]);
 
   const finishOpen = useCallback(() => {
-    setOpened(true);
-    setRevealing(false);
-    window.scrollTo(0, 0);
+    setOpened(true); // gates fade out
+    // Release scroll only after zoom finishes — prevents mobile drop
+    window.setTimeout(() => {
+      setRevealing(false);
+      window.scrollTo(0, 0);
+    }, 650);
   }, []);
 
-  // Slow auto-scroll after open; any touch/scroll/key turns it off for good
-  useAutoScroll(opened, { delayMs: 1100, pxPerFrame: 0.5 });
+  // Start after zoom settles so it doesn't fight the entrance
+  useAutoScroll(opened, { delayMs: 2000, pxPerFrame: 0.5 });
 
   return (
     <div className="emerald-scene">
@@ -96,21 +100,27 @@ export function InvitationApp() {
         aria-hidden={!showContent}
       >
         {showContent && (
-          <motion.div
-            initial={{ opacity: 1, scale: 0.78 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 2.1, ease: [0.22, 1, 0.36, 1] }}
-            style={{ transformOrigin: "50% 18%" }}
-          >
+          <>
+            {/* Fixed layers stay outside scale — avoids mobile "drop" */}
             <FallingPetals petals={14} sparkles={16} />
-            <Invite />
-            <ScratchCard />
-            <Countdown />
-            <Venue />
-            <Rsvp />
-            <Closing />
+
+            <motion.div
+              className="origin-top will-change-transform"
+              initial={{ opacity: 0.9, scale: 0.94 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 1.55, ease: [0.22, 1, 0.36, 1] }}
+              style={{ transformOrigin: "top center" }}
+            >
+              <Invite />
+              <ScratchCard />
+              <Countdown />
+              <Venue />
+              <Rsvp />
+              <Closing />
+            </motion.div>
+
             {opened && <StickyBar />}
-          </motion.div>
+          </>
         )}
       </main>
 
@@ -122,7 +132,7 @@ export function InvitationApp() {
             key="cover"
             className="fixed inset-0 z-50"
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
+            transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
           >
             <Cover guest={guest} onStart={startOpen} onDone={finishOpen} />
           </motion.div>
