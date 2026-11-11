@@ -115,6 +115,11 @@ export const wedding = {
     "— Nishad & Hafsana",
 
   printedCard: "/images/invitation-card.jpg",
+
+  music: {
+    src: "/music/kun-fayakoon.mp3",
+    volume: 0.45,
+  },
 };
 
 export type Wedding = typeof wedding;

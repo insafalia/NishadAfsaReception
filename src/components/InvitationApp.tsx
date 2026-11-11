@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { useSearchParams } from "next/navigation";
 import { wedding } from "@/data/wedding";
@@ -13,6 +13,8 @@ import { Venue } from "./Venue";
 import { Rsvp } from "./Rsvp";
 import { Closing } from "./Closing";
 import { StickyBar } from "./StickyBar";
+import MusicControl from "./MusicControl";
+import { useAutoScroll } from "@/hooks/useAutoScroll";
 
 export function InvitationApp() {
   const search = useSearchParams();
@@ -23,6 +25,8 @@ export function InvitationApp() {
 
   const [opened, setOpened] = useState(false);
   const [revealing, setRevealing] = useState(false);
+  const [playing, setPlaying] = useState(false);
+  const audio = useRef<HTMLAudioElement>(null);
 
   useEffect(() => {
     if (search.get("open") === "1") setOpened(true);
@@ -36,10 +40,39 @@ export function InvitationApp() {
     return () => document.body.classList.remove("is-locked");
   }, [showCover]);
 
+  useEffect(() => {
+    const a = audio.current;
+    if (!a) return;
+    a.volume = wedding.music.volume;
+  }, []);
+
+  const startMusic = useCallback(() => {
+    const a = audio.current;
+    if (!a) return;
+    a.volume = wedding.music.volume;
+    a.play()
+      .then(() => setPlaying(true))
+      .catch(() => setPlaying(false));
+  }, []);
+
+  const toggleMusic = useCallback(() => {
+    const a = audio.current;
+    if (!a) return;
+    if (a.paused) {
+      a.play()
+        .then(() => setPlaying(true))
+        .catch(() => {});
+    } else {
+      a.pause();
+      setPlaying(false);
+    }
+  }, []);
+
   const startOpen = useCallback(() => {
     setRevealing(true);
+    startMusic();
     window.scrollTo(0, 0);
-  }, []);
+  }, [startMusic]);
 
   const finishOpen = useCallback(() => {
     setOpened(true);
@@ -47,9 +80,13 @@ export function InvitationApp() {
     window.scrollTo(0, 0);
   }, []);
 
+  // Slow auto-scroll after open; any touch/scroll/key turns it off for good
+  useAutoScroll(opened, { delayMs: 1100, pxPerFrame: 0.5 });
+
   return (
     <div className="emerald-scene">
-      {/* Invitation sits behind the gates so open never hits a blank frame */}
+      <audio ref={audio} src={wedding.music.src} loop preload="auto" />
+
       <main
         className={
           showContent
@@ -76,6 +113,8 @@ export function InvitationApp() {
           </motion.div>
         )}
       </main>
+
+      {opened && <MusicControl playing={playing} onToggle={toggleMusic} />}
 
       <AnimatePresence>
         {showCover && (

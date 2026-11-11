@@ -234,7 +234,11 @@ export default function ScratchCard() {
   };
 
   return (
-    <section aria-label="Scratch to reveal the invitation card" className="relative z-10 px-5 py-10 sm:py-14">
+    <section
+      data-auto-scroll-stop
+      aria-label="Scratch to reveal the invitation card"
+      className="relative z-10 px-5 py-10 sm:py-14"
+    >
       <p className="text-center text-[11px] font-semibold uppercase tracking-[0.38em] text-soft/80">
         {w.scratch.eyebrow}
       </p>
