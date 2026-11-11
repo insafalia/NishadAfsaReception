@@ -171,6 +171,11 @@ body.is-locked {
 
 /* Gliding champagne glow on couple names */
 .name-glow {
+  display: inline-block;
+  max-width: 100%;
+  padding: 0.2em 0.45em;
+  line-height: 1.45;
+  overflow: visible;
   background: linear-gradient(
     110deg,
     #fffbf5 0%,
@@ -184,6 +189,7 @@ body.is-locked {
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
+  -webkit-text-fill-color: transparent;
   filter: drop-shadow(0 0 12px rgba(226, 201, 138, 0.28));
   animation: name-glow 5.5s ease-in-out infinite;
 }
@@ -322,6 +328,7 @@ body.is-locked {
     animation: none;
     background: none;
     color: #fffbf5;
+    -webkit-text-fill-color: #fffbf5;
     filter: none;
   }
   html {

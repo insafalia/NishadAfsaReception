@@ -37,15 +37,15 @@ export function Invite() {
             ))}
           </div>
 
-          <h2 className="name-glow mt-8 text-center font-script text-5xl sm:text-6xl">
-            {couple.shortGroom}
+          <h2 className="mt-8 text-center font-script text-5xl leading-[1.45] sm:text-6xl">
+            <span className="name-glow">{couple.shortGroom}</span>
           </h2>
           <p className="mt-2 text-center text-sm text-soft/70">{couple.groomLine}</p>
 
           <p className="my-5 text-center font-display text-2xl text-champagne">&amp;</p>
 
-          <h2 className="name-glow text-center font-script text-5xl sm:text-6xl">
-            {couple.shortBride}
+          <h2 className="text-center font-script text-5xl leading-[1.45] sm:text-6xl">
+            <span className="name-glow">{couple.shortBride}</span>
           </h2>
           <p className="mt-2 text-center text-sm text-soft/70">{couple.brideLine}</p>
 

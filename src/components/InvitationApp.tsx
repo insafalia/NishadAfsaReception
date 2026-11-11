@@ -76,16 +76,14 @@ export function InvitationApp() {
   }, [startMusic]);
 
   const finishOpen = useCallback(() => {
-    setOpened(true); // gates fade out
-    // Release scroll only after zoom finishes — prevents mobile drop
+    setOpened(true);
     window.setTimeout(() => {
       setRevealing(false);
       window.scrollTo(0, 0);
-    }, 650);
+    }, 400);
   }, []);
 
-  // Start after zoom settles so it doesn't fight the entrance
-  useAutoScroll(opened, { delayMs: 2000, pxPerFrame: 0.5 });
+  useAutoScroll(opened, { delayMs: 1400, pxPerFrame: 0.5 });
 
   return (
     <div className="emerald-scene">
@@ -105,11 +103,9 @@ export function InvitationApp() {
             <FallingPetals petals={14} sparkles={16} />
 
             <motion.div
-              className="origin-top will-change-transform"
-              initial={{ opacity: 0.9, scale: 0.94 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 1.55, ease: [0.22, 1, 0.36, 1] }}
-              style={{ transformOrigin: "top center" }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
             >
               <Invite />
               <ScratchCard />
