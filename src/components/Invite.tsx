@@ -79,7 +79,7 @@ export function Invite() {
             variants={item}
             className="mt-7 font-script text-[clamp(40px,12vw,56px)] leading-[1.45]"
           >
-            <span className="name-glow">{couple.shortGroom}</span>
+            <span className="name-glow">{couple.groom}</span>
           </motion.h2>
           <motion.p variants={item} className="mt-1 text-sm text-soft/70">
             {couple.groomLine}
@@ -93,7 +93,7 @@ export function Invite() {
             variants={item}
             className="font-script text-[clamp(40px,12vw,56px)] leading-[1.45]"
           >
-            <span className="name-glow">{couple.shortBride}</span>
+            <span className="name-glow">{couple.bride}</span>
           </motion.h2>
           <motion.p variants={item} className="mt-1 text-sm text-soft/70">
             {couple.brideLine}
