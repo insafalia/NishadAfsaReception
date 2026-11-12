@@ -117,7 +117,7 @@ export const wedding = {
   printedCard: "/images/invitation-card.jpg",
 
   music: {
-    src: "/music/kun-fayakoon.mp3",
+    src: "/music/muhammad-al-muqit.wav",
     volume: 0.45,
   },
 };

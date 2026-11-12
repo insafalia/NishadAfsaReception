@@ -52,6 +52,15 @@ export function InvitationApp() {
       .catch(() => setPlaying(false));
   }, []);
 
+  const restartMusic = useCallback(() => {
+    const a = audio.current;
+    if (!a) return;
+    a.currentTime = 0;
+    a.play()
+      .then(() => setPlaying(true))
+      .catch(() => setPlaying(false));
+  }, []);
+
   const toggleMusic = useCallback(() => {
     const a = audio.current;
     if (!a) return;
@@ -79,7 +88,13 @@ export function InvitationApp() {
 
   return (
     <div className="emerald-scene">
-      <audio ref={audio} src={wedding.music.src} loop preload="auto" />
+      <audio
+        ref={audio}
+        src={wedding.music.src}
+        loop
+        preload="auto"
+        onEnded={restartMusic}
+      />
       <FallingPetals petals={opened ? 12 : 16} sparkles={opened ? 14 : 18} />
 
       <AnimatePresence>
